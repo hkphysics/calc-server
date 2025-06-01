@@ -11,6 +11,7 @@ sudo -E python3  ./bootstrap.py --admin admin
 
 curl -L https://foundry.paradigm.xyz | bash
 ~/.foundry/bin/foundryup
+pip install jupyter-ai[all]
 
 
 
