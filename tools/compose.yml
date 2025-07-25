@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    volumes:
+      # Mount your project directory to the container for access during runtime
+      - ./src:/app/src
+    command: ["bash", "./run.sh"]
+    ports:
+      - 8000:8000
+      - 8001:8001
+
