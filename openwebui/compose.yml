@@ -8,5 +8,10 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     restart: always
+    environment:
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
+      OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
 volumes:
   open-webui:
