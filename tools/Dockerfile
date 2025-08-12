@@ -11,5 +11,3 @@ pip install -r requirements.txt
 RUN cd openapi-servers/servers/weather ; \
 pip install -r requirements.txt
 
-# Install any needed packages specified in requirements.txt (or just mcpo)
-RUN pip install --no-cache-dir mcpo

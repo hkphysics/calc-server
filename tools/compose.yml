@@ -10,4 +10,16 @@ services:
       - 8001:8001
     restart:
       always
-
+  mcpo:
+    image: ghcr.io/open-webui/mcpo:main
+    ports:
+      - "8002:8000"
+    command:
+      - --server-type
+      - streamable-http
+      - --api-key
+      - ${MCPO_API_KEY}
+      - --header
+      - '{"Authorization": "Bearer ${TWENTY_API_KEY}"}'
+      - --
+      - https://crm.axc.xyz/mcp
