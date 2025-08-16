@@ -1,13 +1,21 @@
 jupyterlab_myst
 jupyter-ai[all]
 jupyterlab-git
-jupyterlab-rtc
 jupyterlab-latex
 jupyterlab-spreadsheet-editor
+jupyter-archive
+# This causes freezes
+#jupyter-collaboration
+lckr-jupyterlab-variableinspector
+jupyterlab-code-formatter
+isort
+black
 mystmd
 pytest
 matplotlib
 pandas
 polars
 ipympl
+# version with fixes
+git+https://github.com/hkphysics/uniswappy.git
 
