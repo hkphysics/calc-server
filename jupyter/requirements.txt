@@ -4,8 +4,8 @@ jupyterlab-git
 jupyterlab-latex
 jupyterlab-spreadsheet-editor
 jupyter-archive
-# This causes freezes
-#jupyter-collaboration
+# This can causes freezes
+jupyter-collaboration
 lckr-jupyterlab-variableinspector
 jupyterlab-code-formatter
 isort
