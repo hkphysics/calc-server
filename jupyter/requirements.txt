@@ -4,6 +4,7 @@ jupyterlab-git
 jupyterlab-latex
 jupyterlab-spreadsheet-editor
 jupyter-archive
+jupytext
 # This can causes freezes
 jupyter-collaboration
 lckr-jupyterlab-variableinspector
@@ -18,4 +19,5 @@ polars
 ipympl
 # version with fixes
 git+https://github.com/hkphysics/uniswappy.git
+nb-clean
 
