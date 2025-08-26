@@ -1,0 +1,15 @@
+[Unit]
+Description=Rclone Mount
+AssertPathIsDirectory=/mnt/data/shared/gdrive
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/rclone mount axc: /mnt/data/shared/gdrive --vfs-cache-mode writes --links --config /home/user/.config/rclone/rclone.conf --allow-other
+ExecStop=/bin/fusermount -u /mnt/data/shared/gdrive
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
