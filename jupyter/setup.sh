@@ -41,7 +41,7 @@ fi
 echo "All checks passed. Continuing with script..."
 
 systemctl stop caddy
-apt install python3 python3-dev git curl npm
+apt install python3 python3-dev git curl npm texlive texlive-fonts-extra texlive-science texlive-bibtex-extra biber
 python3  ./bootstrap.py
 cp config.yaml /opt/tljh/config
 /opt/tljh/user/bin/pip install -r requirements.txt
