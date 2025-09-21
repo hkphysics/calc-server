@@ -1,1 +1,2 @@
-apt-get install emacs git docker.io docker-compose caddy
+#!/bin/bash
+apt-get install emacs git docker.io docker-compose caddy autossh
