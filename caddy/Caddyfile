@@ -12,10 +12,6 @@ ai.axc.xyz {
   reverse_proxy * localhost:3000
 }
 
-ai.hkphysics.hk {
-  reverse_proxy * localhost:3000
-}
-
 crm.axc.xyz {
   reverse_proxy * localhost:3001
 }
