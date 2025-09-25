@@ -1,0 +1,30 @@
+services:
+
+  redmine:
+    image: redmine_local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8080:3000
+    environment:
+      REDMINE_DB_POSTGRES: db
+      REDMINE_DB_PASSWORD: example
+      REDMINE_SECRET_KEY_BASE: supersecretkey
+    volumes:
+      - redmine-files:/usr/share/redmine/files
+      - redmine-themes:/usr/src/redmine/public/themes
+  db:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DATABASE: redmine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+   redmine-files:
+   redmine-themes:
+   postgres_data:
