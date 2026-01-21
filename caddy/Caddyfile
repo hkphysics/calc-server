@@ -20,6 +20,10 @@ compute.axc.xyz {
   reverse_proxy * localhost:3002
 }
 
+docs.axc.xyz {
+  reverse_proxy * localhost:3003
+}
+
 compute.hkphysics.hk {
   reverse_proxy * localhost:3002
 }
