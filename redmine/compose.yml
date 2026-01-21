@@ -16,13 +16,13 @@ services:
       - redmine-files:/usr/share/redmine/files
       - redmine-themes:/usr/src/redmine/public/themes
   db:
-    image: postgres:17
+    image: postgres:18
     restart: always
     environment:
       POSTGRES_PASSWORD: example
       POSTGRES_DATABASE: redmine
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/18/docker
 
 volumes:
    redmine-files:
