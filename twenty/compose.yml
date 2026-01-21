@@ -113,9 +113,9 @@ services:
       - "smtp.gmail.com:host-gateway"
 
   db:
-    image: postgres:16
+    image: postgres:18
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/18/docker
     environment:
       POSTGRES_USER: ${PG_DATABASE_USER:-postgres}
       POSTGRES_PASSWORD: ${PG_DATABASE_PASSWORD:-postgres}
