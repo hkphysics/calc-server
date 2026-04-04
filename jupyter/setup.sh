@@ -45,6 +45,9 @@ apt install python3 python3-dev git curl npm texlive texlive-fonts-extra texlive
 python3  ./bootstrap.py
 cp config.yaml /opt/tljh/config
 /opt/tljh/user/bin/pip install -r requirements.txt
+pushd /opt/tljh/hub/lib/python*/site-packages
+patch -p1 < $script_dir/badname.patch
+popd
 tljh-config set http.port 3002
 tljh-config reload proxy
 tljh-config reload

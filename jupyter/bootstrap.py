@@ -450,10 +450,29 @@ def main():
         apt_get_adjusted_env = os.environ.copy()
         apt_get_adjusted_env["DEBIAN_FRONTEND"] = "noninteractive"
         run_subprocess(["apt-get", "update"])
-        run_subprocess(
-            ["apt-get", "install", "--yes", "software-properties-common"],
-            env=apt_get_adjusted_env,
-        )
+
+        # Attempt to install software-properties-common
+        # This will fail on Debian 13
+        try:
+            run_subprocess(
+                ["apt-get", "install", "--yes", "software-properties-common"],
+                env=apt_get_adjusted_env,
+            )
+        except subprocess.CalledProcessError:
+            logger.info("software-properties-common not available, continuing with alternative packages.")
+            run_subprocess(
+                [
+                    "apt-get",
+                    "install",
+                    "--yes",
+                    "libpq-dev",
+                    "python3-dev",
+                    "build-essential",
+                    "python3-ipython"
+                ],
+                env=apt_get_adjusted_env,
+            )
+
         # Section "universe" exists and is required only in ubuntu.
         if distro == "ubuntu":
             run_subprocess(["add-apt-repository", "universe", "--yes"])
