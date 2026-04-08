@@ -16,5 +16,16 @@ services:
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
       OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
       OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
+  hermes:
+    image: nousresearch/hermes-agent
+    volumes:
+      - hermes-data:/opt/data
+    env_file:
+      - ./hermes.env
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    command: ["gateway"]
+
 volumes:
   open-webui:
+  hermes-data:
