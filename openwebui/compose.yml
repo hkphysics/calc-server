@@ -20,10 +20,11 @@ services:
     image: nousresearch/hermes-agent
     volumes:
       - hermes-data:/opt/data
-    env_file:
-      - ./hermes.env
-    extra_hosts:
-      - host.docker.internal:host-gateway
+    environment:
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      API_SERVER_ENABLED: true
+      API_SERVER_KEY: your-secret-key-fob!
+      API_SERVER_HOST: 0.0.0.0
     command: ["gateway"]
 
 volumes:
