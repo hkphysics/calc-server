@@ -26,6 +26,21 @@ services:
       API_SERVER_KEY: your-secret-key-fob!
       API_SERVER_HOST: 0.0.0.0
     command: ["gateway"]
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: always
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.openclaw
+    restart: always
+    environment:
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+    volumes:
+      - ./openclaw-data:/home/node/.openclaw
+    extra_hosts:
+      - host.docker.internal:host-gateway
 
 volumes:
   open-webui:

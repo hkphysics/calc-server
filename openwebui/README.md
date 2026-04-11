@@ -3,10 +3,6 @@
 OPENROUTER_API_KEY
 API_SERVER_KEY
 
-API_SERVER_ENABLED=true
-API_SERVER_HOST=0.0.0.0
-GATEWAY_ALLOW_ALL_USERS=true
-
 2)
 
 docker compose run hermes setup
@@ -19,3 +15,21 @@ Add connection to OpenAI API
 URL: http://hermes:8642/v1
 API: (your API_SERVER_KEY)
 
+change chat completion to response
+
+
+# Installing openclaw
+
+docker compose up
+./openclaw-config.sh
+
+2)
+
+Go into the openclaw-data/openclaw.json find the token id and then add openwebui connectio
+
+URL: http://openclaw:18789/v1
+API: token from openclaw.json
+
+For openclaw configure
+
+docker compose run -ti --rm --remove-orphans openclaw openclaw configure
