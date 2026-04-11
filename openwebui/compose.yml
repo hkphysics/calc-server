@@ -39,9 +39,12 @@ services:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
     volumes:
       - ./openclaw-data:/home/node/.openclaw
+      - openclaw-skills:/app/skills
     extra_hosts:
       - host.docker.internal:host-gateway
 
 volumes:
   open-webui:
   hermes-data:
+  openclaw-skills:
+

@@ -1,3 +1,4 @@
+#!/bin/bash
 
 docker compose run openclaw openclaw config set --json "models.providers.ollama" '{"baseUrl": "http://host.docker.internal:11434", "apiKey": "ollama-local", "api": "ollama", "models": [{
             "id": "gemma4",
@@ -24,9 +25,26 @@ docker compose run openclaw openclaw config set --batch-json '[{"path": "agents.
 docker compose down openclaw
 docker compose up openclaw -d
 
-docker compose run --rm openclaw npx clawhub install weather
-docker compose run --rm openclaw openclaw skills install multi-search-engine
-docker compose run --rm openclaw openclaw skills install arxiv-watcher
-docker compose run --rm openclaw openclaw skills install word-docx
-docker compose run --rm openclaw openclaw skills update --all
+modules=(
+    "weather"
+    "multi-search-engine"
+    "arxiv-watcher"
+    "word-docx"
+    "powerpoint-pptx"
+    "excel-xlsx"
+    "baidu-search"
+    "google-maps"
+    "ontology"
+    "playwright-mcp"
+    "x-search"
+    "self-improving-agent"
+    "realtime-crypto-price-api"
+)
+
+for module in "${modules[@]}"; do
+    echo "--- Running installation for: $module ---"
+    docker compose run --rm openclaw npx clawhub install "$module"
+done
+
+docker compose run openclaw openclaw skills update --all
 
