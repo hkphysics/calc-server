@@ -1,2 +1,6 @@
 FROM ghcr.io/openclaw/openclaw:latest
+USER root
+RUN apt-get update
+RUN apt-get install -y python3-requests
+USER node
 RUN npx clawhub
