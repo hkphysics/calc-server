@@ -1,0 +1,5 @@
+.env
+*~
+
+# Exclude data directory
+openclaw-data/
