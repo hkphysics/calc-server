@@ -37,6 +37,8 @@ services:
     restart: always
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      OPENCLAW_NO_RESPAWN: 1
+      NODE_COMPILE_CACHE: /var/tmp/openclaw-compile-cache
     volumes:
       - ./openclaw-data:/home/node/.openclaw
       - openclaw-skills:/app/skills
