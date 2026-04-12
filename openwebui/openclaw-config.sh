@@ -39,6 +39,8 @@ modules=(
     "x-search"
     "self-improving-agent"
     "realtime-crypto-price-api"
+    "goplaces"
+    "google-maps"
 )
 
 for module in "${modules[@]}"; do
