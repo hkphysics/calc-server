@@ -20,6 +20,8 @@ services:
     image: nousresearch/hermes-agent
     volumes:
       - hermes-data:/opt/data
+    ports:
+      - 8642:8642
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       API_SERVER_ENABLED: true
@@ -37,11 +39,17 @@ services:
     restart: always
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
+      GOOGLE_MAPS_LANG: ${GOOGLE_MAPS_LANG}
+      GOOGLE_PLACES_API_KEY: ${GOOGLE_PLACES_API_KEY}
+      BAIDU_API_KEY: ${BAIDU_API_KEY}
       OPENCLAW_NO_RESPAWN: 1
       NODE_COMPILE_CACHE: /var/tmp/openclaw-compile-cache
     volumes:
       - ./openclaw-data:/home/node/.openclaw
       - openclaw-skills:/app/skills
+    ports:
+      - 18789:18789
     extra_hosts:
       - host.docker.internal:host-gateway
 
