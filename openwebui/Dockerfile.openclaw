@@ -1,19 +1,17 @@
 FROM ghcr.io/openclaw/openclaw:latest
 USER root
-RUN apt-get update ; \
-   apt-get install -y python3-requests jq tmux ffmpeg ; \
-   mkdir -p /home/linuxbrew/.linuxbrew ; \
-   chmod a+rwx /home/linuxbrew/.linuxbrew ; \
-   npm i -g clawhub ; \
-   npm i -g mcporter
+COPY openclaw-config.sh .
+RUN apt-get update && \
+   apt-get install -y  --no-install-recommends \
+       python3-requests jq tmux ffmpeg && \
+   mkdir -p /home/linuxbrew/.linuxbrew && \
+   chmod a+rwx /home/linuxbrew/.linuxbrew && \
+   chmod a+x openclaw-config.sh && \
+   npm i -g clawhub && \
+   npm i -g playwright && \
+   npx playwright install chromium && \
+   apt-get clean && \
+   rm -rf /var/lib/apt/lists/*
+
 USER node
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-RUN /home/linuxbrew/.linuxbrew/bin/brew install gh  steipete/tap/goplaces gogcli \
-   steipete/tap/gifgrep himalaya \
-   grizzly steipete/tap/spogo \
-   steipete/tap/songsee ; \
-   /home/linuxbrew/.linuxbrew/bin/brew install --cask 1password-cli ; \
-   npx @playwright/mcp ; \
-   npx playwright install chromium
-
-
+RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" 

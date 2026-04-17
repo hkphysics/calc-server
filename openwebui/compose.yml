@@ -1,6 +1,6 @@
 services:
   openwebui:
-    image: ghcr.io/open-webui/open-webui:main
+    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
     build:
       context: .
       dockerfile: Dockerfile
@@ -43,11 +43,13 @@ services:
       GOOGLE_MAPS_LANG: ${GOOGLE_MAPS_LANG}
       GOOGLE_PLACES_API_KEY: ${GOOGLE_PLACES_API_KEY}
       BAIDU_API_KEY: ${BAIDU_API_KEY}
+      CLAWHUB_API_KEY: ${CLAWHUB_API_KEY}
       OPENCLAW_NO_RESPAWN: 1
       NODE_COMPILE_CACHE: /var/tmp/openclaw-compile-cache
     volumes:
       - ./openclaw-data:/home/node/.openclaw
       - openclaw-skills:/app/skills
+      - linuxbrew:/home/linuxbrew
     ports:
       - 18789:18789
     extra_hosts:
@@ -57,4 +59,6 @@ volumes:
   open-webui:
   hermes-data:
   openclaw-skills:
+  linuxbrew:
+
 

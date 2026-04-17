@@ -1,6 +1,16 @@
 #!/bin/bash
 
-docker compose run openclaw openclaw config set --json "models.providers.ollama" '{"baseUrl": "http://host.docker.internal:11434", "apiKey": "ollama-local", "api": "ollama", "models": [{
+export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
+brew install gh  steipete/tap/goplaces gogcli \
+   steipete/tap/gifgrep himalaya \
+   steipete/tap/spogo \
+   steipete/tap/songsee
+brew install --cask 1password-cli
+brew upgrade
+openclaw config set --json "models.providers.ollama" '{
+            "baseUrl": "http://host.docker.internal:11434",
+            "apiKey": "ollama-local",
+            "api": "ollama", "models": [{
             "id": "gemma4",
             "name": "gemma4",
             "reasoning": false,
@@ -16,14 +26,16 @@ docker compose run openclaw openclaw config set --json "models.providers.ollama"
             "contextWindow": 128000,
             "maxTokens": 8192
           }]}'
-docker compose run openclaw openclaw config set --json "agents.defaults.model" '{
+openclaw config set --json "agents.defaults.model" '{
 "primary": "openrouter/openrouter/free",
 "fallbacks": [
 "ollama/gemma4"
 ]}'
-docker compose run openclaw openclaw config set --batch-json '[{"path": "agents.defaults.model.primary", "value":"openrouter/openrouter/free"}, {"path": "gateway.http.endpoints.chatCompletions.enabled", "value": true}]'
-docker compose down openclaw
-docker compose up openclaw -d
+
+openclaw config set --batch-json '[
+{"path": "agents.defaults.model.primary", "value":"openrouter/openrouter/free"},
+{"path": "gateway.http.endpoints.chatCompletions.enabled", "value": true}
+]'
 
 modules=(
     "weather"
@@ -41,12 +53,22 @@ modules=(
     "realtime-crypto-price-api"
     "goplaces"
     "google-maps"
+    "baidu"
+    "data-analysis"
+    "image"
+    "productivity"
+    "skill-vetter"
 )
+
+[[ -n $CLAWHUB_API_KEY ]] && {
+    npx clawhub login --token $CLAWHUB_API_KEY
+}
 
 for module in "${modules[@]}"; do
     echo "--- Running installation for: $module ---"
-    docker compose run --rm openclaw npx clawhub install "$module"
+    npx clawhub install "$module"
 done
 
-docker compose run openclaw openclaw skills update --all
+openclaw skills update --all
+brew cleanup
 

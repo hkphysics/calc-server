@@ -20,8 +20,8 @@ change chat completion to response
 
 # Installing openclaw
 
-docker compose up
-./openclaw-config.sh
+docker compose build openclaw
+docker compose run openclaw ./openclaw-config.sh
 
 2)
 
