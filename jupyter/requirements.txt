@@ -8,6 +8,7 @@ jupytext
 # installing all jupyter-ai models will cause
 # a timeout on startup
 jupyter-ai
+jupyter-server-mcp
 langchain-ollama
 
 # This can causes freezes
@@ -26,3 +27,7 @@ ipympl
 git+https://github.com/hkphysics/uniswappy.git
 nb-clean
 voila
+torch
+torchvision
+tensorboard
+jupyterlab-tensorboard-pro
