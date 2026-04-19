@@ -1,7 +1,7 @@
 #!/bin/bash
 apt-get install emacs git caddy autossh
 
-if [ -f /etc/debian_version ]; then
+if grep -q '^ID=debian' /etc/os-release && ! grep -q '^ID=ubuntu' /etc/os-release; then
     debver=$(< /etc/debian_version)
     echo "Running on Debian (version $debver)"
 # Add Docker's official GPG key:
