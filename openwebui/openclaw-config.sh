@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+cd /apps
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 brew install gh  steipete/tap/goplaces gogcli \
    steipete/tap/gifgrep himalaya \
