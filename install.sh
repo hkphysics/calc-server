@@ -1,6 +1,17 @@
 #!/bin/bash
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+cd "$SCRIPT_DIR"
+
+if ! [ -f "etc/default/calc-server" ] ; then
+    "please generate etc/default/calc-server"
+    exit 1
+fi
+
+cp etc/default/calc-server /etc/default
 apt-get install caddy autossh
 cp caddy/Caddyfile /etc/caddy
+
 cp etc/systemd/system/autossh.service /etc/systemd/system
 
 systemctl daemon-reload
