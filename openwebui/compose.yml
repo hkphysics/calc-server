@@ -48,8 +48,8 @@ services:
       NODE_COMPILE_CACHE: /var/tmp/openclaw-compile-cache
     volumes:
       - ./openclaw-data:/home/node/.openclaw
-      - openclaw-skills:/app/skills
       - linuxbrew:/home/linuxbrew
+      - openclaw-apps:/app
     ports:
       - 18789:18789
     extra_hosts:
@@ -58,7 +58,7 @@ services:
 volumes:
   open-webui:
   hermes-data:
-  openclaw-skills:
+  openclaw-apps:
   linuxbrew:
 
 

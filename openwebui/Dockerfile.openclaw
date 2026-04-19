@@ -1,14 +1,15 @@
 FROM ghcr.io/openclaw/openclaw:latest
 USER root
-COPY openclaw-config.sh .
+COPY openclaw-config.sh /home/node/openclaw-config.sh
 RUN apt-get update && \
    apt-get install -y  --no-install-recommends \
-       python3-requests jq tmux ffmpeg && \
+       python3-requests python3-pip jq tmux ffmpeg && \
    mkdir -p /home/linuxbrew/.linuxbrew && \
    chmod a+rwx /home/linuxbrew/.linuxbrew && \
-   chmod a+x openclaw-config.sh && \
+   chmod a+x /home/node/openclaw-config.sh && \
    npm i -g clawhub && \
    npm i -g playwright && \
+   npm i -g sundial-hub && \
    npx playwright install chromium && \
    apt-get clean && \
    rm -rf /var/lib/apt/lists/*

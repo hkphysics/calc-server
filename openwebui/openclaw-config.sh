@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 brew install gh  steipete/tap/goplaces gogcli \
    steipete/tap/gifgrep himalaya \
@@ -34,17 +35,16 @@ openclaw config set --json "agents.defaults.model" '{
 
 openclaw config set --batch-json '[
 {"path": "agents.defaults.model.primary", "value":"openrouter/openrouter/free"},
-{"path": "gateway.http.endpoints.chatCompletions.enabled", "value": true}
+{"path": "gateway.http.endpoints.chatCompletions.enabled", "value": true},
+{"path": "gateway.http.endpoints.responses.enabled", "value": true}
 ]'
 
 modules=(
     "weather"
     "multi-search-engine"
-    "arxiv-watcher"
     "word-docx"
     "powerpoint-pptx"
     "excel-xlsx"
-    "baidu-search"
     "google-maps"
     "ontology"
     "playwright-mcp"
@@ -63,11 +63,32 @@ modules=(
 [[ -n $CLAWHUB_API_KEY ]] && {
     npx clawhub login --token $CLAWHUB_API_KEY
 }
-
 for module in "${modules[@]}"; do
     echo "--- Running installation for: $module ---"
+    rm -rf "${module##*/}"
     npx clawhub install "$module"
 done
+
+modules=(
+    "vercel-labs/find-skills"
+    "anisafifi/academic-research-hub"
+    "claude-office-skills/academic-search"
+    "Ractorrr/arxiv"
+    "ajanraj/yahoo-finance"
+    "evgyur/crypto-price"
+    "anthropics/pdf"
+    "raulsimpetru/pdf-form-filler"
+    "byteroverinc/byterover"
+)
+
+cd /app/skills
+for module in "${modules[@]}"; do
+    echo "--- Running installation for: $module ---"
+    rm -rf "${module##*/}"
+    npx sundial-hub add -y "$module"
+done
+mv .agents/skills/* .
+rm -rf .agents
 
 openclaw skills update --all
 brew cleanup

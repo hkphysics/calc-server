@@ -21,7 +21,7 @@ change chat completion to response
 # Installing openclaw
 
 docker compose build openclaw
-docker compose run openclaw ./openclaw-config.sh
+docker compose run openclaw /home/node/openclaw-config.sh
 
 2)
 
@@ -29,6 +29,15 @@ Go into the openclaw-data/openclaw.json find the token id and then add openwebui
 
 URL: http://openclaw:18789/v1
 API: token from openclaw.json
+
+change chat completion to response
+
+In the list of
+Settings -> Admin Settings -> Models
+
+Search for all of the openclaw models and change the function call to True
+
+openclaw models 
 
 For openclaw configure
 
