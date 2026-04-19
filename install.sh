@@ -1,5 +1,6 @@
 #!/bin/bash
 
+TYPST_VERSION=0.14.2
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 cd "$SCRIPT_DIR"
 
@@ -18,7 +19,7 @@ systemctl daemon-reload
 systemctl enable caddy
 systemctl enable autossh
 
-wget https://github.com/typst/typst/releases/download/v0.12.0/typst-x86_64-unknown-linux-musl.tar.xz
+wget https://github.com/typst/typst/releases/download/v0.14.2/typst-x86_64-unknown-linux-musl.tar.xz
 tar xf typst-x86_64-unknown-linux-musl.tar.xz
 rm -f typst*.xz
 mv typst-x86_64-unknown-linux-musl/typst /usr/bin
