@@ -12,7 +12,9 @@ RUN apt-get update && \
    npm i -g sundial-hub && \
    npx playwright install chromium && \
    apt-get clean && \
-   rm -rf /var/lib/apt/lists/*
+   npm cache clean --force && \
+   pip cache purge && \
+   rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 USER node
 RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" 
