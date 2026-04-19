@@ -7,7 +7,7 @@ Wants=network-online.target
 [Service]
 Type=simple
 EnvironmentFile=/etc/default/calc-server
-ExecStart=/usr/bin/rclone mount $REMOTE_MOUNT /mnt/data/shared/gdrive --vfs-cache-mode writes --links --config /home/$LOCAL_USER/.config/rclone/rclone.conf --allow-other
+ExecStart=/usr/bin/rclone mount axc: /mnt/data/shared/gdrive --vfs-cache-mode writes --links --config /home/$LOCAL_USER/.config/rclone/rclone.conf --allow-other
 ExecStop=/bin/fusermount -u /mnt/data/shared/gdrive
 Restart=always
 RestartSec=10
