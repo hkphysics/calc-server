@@ -27,7 +27,9 @@ ipympl
 git+https://github.com/hkphysics/uniswappy.git
 nb-clean
 voila
-torch
-torchvision
 tensorboard
 jupyterlab-tensorboard-pro
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+torchvision
+torchaudio
