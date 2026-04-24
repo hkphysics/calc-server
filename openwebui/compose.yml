@@ -16,7 +16,7 @@ services:
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
       OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
       OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
-    pull_policy: build
+    pull_policy: always
     
   hermes:
     image: nousresearch/hermes-agent
@@ -33,7 +33,7 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     restart: always
-    pull_policy: build
+    pull_policy: always
   openclaw:
     image: ghcr.io/openclaw/openclaw:latest
     build:
@@ -57,7 +57,7 @@ services:
       - 18789:18789
     extra_hosts:
       - host.docker.internal:host-gateway
-    pull_policy: build
+    pull_policy: always
 
 volumes:
   open-webui:
