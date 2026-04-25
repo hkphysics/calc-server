@@ -58,6 +58,8 @@ modules=(
     "image"
     "productivity"
     "skill-vetter"
+    "zhipu-web-search"
+    "baidu-ai-map"
 )
 
 [[ -n $CLAWHUB_API_KEY ]] && {
