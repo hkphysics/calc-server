@@ -40,6 +40,8 @@ services:
       context: .
       dockerfile: Dockerfile.openclaw
       pull: true
+      args:
+        - CLAWHUB_API_KEY=${CLAWHUB_API_KEY}
     restart: always
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
@@ -54,7 +56,6 @@ services:
     volumes:
       - ./openclaw-data:/home/node/.openclaw
       - linuxbrew:/home/linuxbrew
-      - openclaw-apps:/app
     ports:
       - 18789:18789
     extra_hosts:
@@ -63,7 +64,6 @@ services:
 volumes:
   open-webui:
   hermes-data:
-  openclaw-apps:
   linuxbrew:
 
 

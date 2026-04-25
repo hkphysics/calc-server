@@ -25,14 +25,15 @@ Search for all of the models and change the function call to True
 
 ## Installing openclaw
 
-1) initialize
+1) Add CLAWHUB_API_KEY to allow loading of clawhub
+
+2) initialize
 
 ```
 docker compose build openclaw
-docker compose run openclaw /home/node/openclaw-config.sh
 ```
 
-2) Go into the openclaw-data/openclaw.json find the token id and then add openwebui connectio
+3) Go into the openclaw-data/openclaw.json find the token id and then add openwebui connectio
 
 ```
 URL: http://openclaw:18789/v1
@@ -44,7 +45,7 @@ In the list of Settings -> Admin Settings -> Models
 
 Search for all of the models and change the function call to True
 
-3) To configure openclaw configure
+4) To configure openclaw configure
 ```
 docker compose run -ti --rm --remove-orphans openclaw openclaw configure
 ```
