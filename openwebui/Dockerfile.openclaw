@@ -1,5 +1,6 @@
-FROM ghcr.io/openclaw/openclaw:latest
 ARG CLAWHUB_API_KEY
+ARG OPENCLAW_TAG=latest
+FROM ghcr.io/openclaw/openclaw:${OPENCLAW_TAG}
 ENV CLAWHUB_API_KEY=$CLAWHUB_API_KEY
 
 USER root

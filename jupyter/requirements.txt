@@ -33,3 +33,5 @@ jupyterlab-tensorboard-pro
 torch
 torchvision
 torchaudio
+jupyter_ai_jupyternaut
+jupyter_ai_chat_commands
