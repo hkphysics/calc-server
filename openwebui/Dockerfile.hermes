@@ -1,0 +1,7 @@
+ARG HERMES_TAG=latest
+FROM nousresearch/hermes-agent:${HERMES_TAG}
+RUN apt-get update && \
+   apt-get install -y  --no-install-recommends chromium  chromium-sandbox curl && \
+   apt-get clean && \
+   rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*   
+   
