@@ -68,41 +68,58 @@ install_module() {
     local module_name=$1
     local max_retries=$2
     local attempts=0
+    local backoff=1
+    local max_backoff=30
+    local success=false
 
-    echo -e "\n========================================================="
-    echo "--> Attempting installation for module: ${module_name}"
-    echo "--> Max Retries Allowed: ${max_retries}"
     echo "========================================================="
+    echo "--> Installing module: ${module_name}"
 
     while [ $attempts -lt $max_retries ]; do
         attempts=$((attempts + 1))
-        echo -e "\n[Attempt $attempts of $max_retries] Starting installation process..."
+        echo -e "\n[Attempt $attempts of $max_retries] "
 
-        if [ $attempts -lt $max_retries ]; then
-            echo "SIMULATION: Installation failed for module $module_name. (Simulated error: exit 1)"
-            # Exit code 1 simulates a failure, triggering the retry logic
-            return 1
+        if eval "$module_name"; then
+            success=true
+            break
+        else
+            echo "FAILURE: Installation failed for module $module_name (Exit code: $?)"
+
+            if [ $attempts -eq $max_retries ]; then
+                echo "No more retries available."
+                break
+            fi
+
+            local sleep_time=$backoff
+            if [ $sleep_time -gt $max_backoff ]; then
+                sleep_time=$max_backoff
+            fi
+
+            echo "Waiting $sleep_time seconds before retry..."
+            sleep $sleep_time
+
+            backoff=$((backoff * 2))
         fi
-
-        echo "SUCCESS: Installation completed successfully on attempt $attempts!"
-        return 0 # Success signal
-        # --- END MOCK INSTALLATION LOGIC ---
     done
 
-    # If the loop finishes without returning 0 (success)
-    echo -e "\n========================================================="
-    echo "FAILURE: Failed to install module '${module_name}' after ${max_retries} attempts."
-    echo "========================================================="
-    return 1
+    if [ "$success" = true ]; then
+        echo "SUCCESS"
+        echo "========================================================="
+        return 0
+    else
+        echo "FAILURE: Failed to install module '${module_name}' after ${max_retries} attempts."
+        echo "========================================================="
+        return 1
+    fi
+
 }
 
 [[ -n $CLAWHUB_API_KEY ]] && {
     npx clawhub login --token $CLAWHUB_API_KEY
 }
 for module in "${modules[@]}"; do
-    echo "--- Running installation for: $module ---"
     rm -rf "${module##*/}"
-    install_module "npx clawhub install ${module}" "5"
+    install_module "npx clawhub install --force ${module}" "5"
 done
 
 modules=(
@@ -119,7 +136,6 @@ modules=(
 
 cd /app/skills
 for module in "${modules[@]}"; do
-    echo "--- Running installation for: $module ---"
     rm -rf "${module##*/}"
     install_module "npx sundial-hub add -y ${module}" "5"
 done

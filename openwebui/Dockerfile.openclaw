@@ -1,9 +1,8 @@
-ARG CLAWHUB_API_KEY
 ARG OPENCLAW_TAG=latest
 FROM ghcr.io/openclaw/openclaw:${OPENCLAW_TAG}
 
 USER root
-COPY --chmod=755 openclaw-config.sh /home/node/openclaw-config.sh
+
 RUN apt-get update && \
    apt-get install -y  --no-install-recommends \
        python3-requests python3-pip jq tmux ffmpeg unzip && \
@@ -18,7 +17,8 @@ RUN apt-get update && \
    rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 USER node
-RUN --mount=type=secret,id=clawhub_api_key,uid=500 \
+COPY --chmod=755 openclaw-config.sh /home/node/openclaw-config.sh
+RUN --mount=type=secret,id=clawhub_api_key,uid=1000 \
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
     CLAWHUB_API_KEY=$(cat /run/secrets/clawhub_api_key) /home/node/openclaw-config.sh
 
