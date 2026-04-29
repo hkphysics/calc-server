@@ -1,13 +1,12 @@
 ARG CLAWHUB_API_KEY
 ARG OPENCLAW_TAG=latest
 FROM ghcr.io/openclaw/openclaw:${OPENCLAW_TAG}
-ENV CLAWHUB_API_KEY=$CLAWHUB_API_KEY
 
 USER root
 COPY openclaw-config.sh /home/node/openclaw-config.sh
 RUN apt-get update && \
    apt-get install -y  --no-install-recommends \
-       python3-requests python3-pip jq tmux ffmpeg && \
+       python3-requests python3-pip jq tmux ffmpeg unzip && \
    mkdir -p /home/linuxbrew/.linuxbrew && \
    chmod a+rwx /home/linuxbrew/.linuxbrew && \
    chmod a+x /home/node/openclaw-config.sh && \
@@ -22,5 +21,6 @@ RUN apt-get update && \
 
 USER node
 RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
-    /home/node/openclaw-config.sh
+    CLAWHUB_API_KEY=${CLAWHUB_API_KEY} /home/node/openclaw-config.sh
+
 

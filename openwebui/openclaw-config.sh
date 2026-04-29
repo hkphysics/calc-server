@@ -8,6 +8,8 @@ brew install gh  steipete/tap/goplaces gogcli \
    steipete/tap/songsee
 brew install --cask 1password-cli
 brew upgrade
+brew cleanup --prune=all
+
 openclaw config set --json "models.providers.ollama" '{
             "baseUrl": "http://host.docker.internal:11434",
             "apiKey": "ollama-local",
@@ -34,7 +36,7 @@ openclaw config set --json "agents.defaults.model" '{
 ]}'
 
 openclaw config set --batch-json '[
-{"path": "agents.defaults.model.primary", "value":"openrouter/openrouter/free"},
+{"path": "agents.defaults.model.primary", "value":"openrouter/free"},
 {"path": "gateway.http.endpoints.chatCompletions.enabled", "value": true},
 {"path": "gateway.http.endpoints.responses.enabled", "value": true}
 ]'
@@ -69,6 +71,7 @@ for module in "${modules[@]}"; do
     echo "--- Running installation for: $module ---"
     rm -rf "${module##*/}"
     npx clawhub install "$module"
+    sleep 5
 done
 
 modules=(
@@ -93,5 +96,6 @@ mv .agents/skills/* .
 rm -rf .agents
 
 openclaw skills update --all
-brew cleanup
-
+# load in npm libraries
+openclaw doctor
+npm cache clean --force
