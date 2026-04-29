@@ -1,0 +1,7 @@
+node_modules/**
+openclaw-data/**
+*~
+.env*
+*.bak
+*.clobbered
+Dockerfile.*

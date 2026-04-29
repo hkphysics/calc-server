@@ -64,14 +64,45 @@ modules=(
     "baidu-ai-map"
 )
 
+install_module() {
+    local module_name=$1
+    local max_retries=$2
+    local attempts=0
+
+    echo -e "\n========================================================="
+    echo "--> Attempting installation for module: ${module_name}"
+    echo "--> Max Retries Allowed: ${max_retries}"
+    echo "========================================================="
+
+    while [ $attempts -lt $max_retries ]; do
+        attempts=$((attempts + 1))
+        echo -e "\n[Attempt $attempts of $max_retries] Starting installation process..."
+
+        if [ $attempts -lt $max_retries ]; then
+            echo "SIMULATION: Installation failed for module $module_name. (Simulated error: exit 1)"
+            # Exit code 1 simulates a failure, triggering the retry logic
+            return 1
+        fi
+
+        echo "SUCCESS: Installation completed successfully on attempt $attempts!"
+        return 0 # Success signal
+        # --- END MOCK INSTALLATION LOGIC ---
+    done
+
+    # If the loop finishes without returning 0 (success)
+    echo -e "\n========================================================="
+    echo "FAILURE: Failed to install module '${module_name}' after ${max_retries} attempts."
+    echo "========================================================="
+    return 1
+}
+
 [[ -n $CLAWHUB_API_KEY ]] && {
     npx clawhub login --token $CLAWHUB_API_KEY
 }
 for module in "${modules[@]}"; do
     echo "--- Running installation for: $module ---"
     rm -rf "${module##*/}"
-    npx clawhub install "$module"
-    sleep 5
+    install_module "npx clawhub install ${module}" "5"
 done
 
 modules=(
@@ -90,7 +121,7 @@ cd /app/skills
 for module in "${modules[@]}"; do
     echo "--- Running installation for: $module ---"
     rm -rf "${module##*/}"
-    npx sundial-hub add -y "$module"
+    install_module "npx sundial-hub add -y ${module}" "5"
 done
 mv .agents/skills/* .
 rm -rf .agents

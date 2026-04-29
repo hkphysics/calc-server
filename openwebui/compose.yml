@@ -44,6 +44,8 @@ services:
       context: .
       dockerfile: Dockerfile.openclaw
       pull: true
+      secrets:
+        - clawhub_api_key
       args:
         - CLAWHUB_API_KEY=${CLAWHUB_API_KEY}
         - OPENCLAW_TAG=${OPENCLAW_TAG-latest}
@@ -71,4 +73,6 @@ volumes:
   hermes-data:
   linuxbrew:
 
-
+secrets:
+  clawhub_api_key:
+    environment: "CLAWHUB_API_KEY"
