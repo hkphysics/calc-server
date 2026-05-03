@@ -1,14 +1,19 @@
 #!/bin/bash
 
-
+set -e
+umask 000
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
-brew install gh  steipete/tap/goplaces gogcli \
+
+ls -lR /home/node/.openclaw
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install gcc gh steipete/tap/goplaces gogcli \
    steipete/tap/gifgrep himalaya \
    steipete/tap/spogo \
    steipete/tap/songsee
 brew install --cask 1password-cli
-brew upgrade
 brew cleanup --prune=all
+
+pnpm dlx playwright install chromium
 
 openclaw config set --json "models.providers.ollama" '{
             "baseUrl": "http://host.docker.internal:11434",
@@ -29,16 +34,84 @@ openclaw config set --json "models.providers.ollama" '{
             "contextWindow": 128000,
             "maxTokens": 8192
           }]}'
-openclaw config set --json "agents.defaults.model" '{
-"primary": "openrouter/openrouter/free",
+openclaw config set --json "agents.defaults" '{
+"model": {
+"primary": "openrouter/free",
 "fallbacks": [
-"ollama/gemma4"
-]}'
+          "openrouter/free",
+          "openrouter/auto",
+          "ollama/glm-4.7-flash",
+          "ollama/gemma4",
+          "ollama/rnj-1",
+          "ollama/olmo-3.1",
+          "ollama/qwen3.6",
+          "ollama/llama3.2"
+]
+},
+"models": {
+        "openrouter/free": {},
+        "ollama/gemma4:latest": {},
+        "ollama/rnj-1:latest": {},
+        "ollama/qwen3.6:latest": {},
+        "ollama/translategemma:27b": {},
+        "ollama/glm-4.7-flash:latest": {},
+        "ollama/gpt-oss:latest": {},
+        "openrouter/google/gemma-4-26b-a4b-it:free": {},
+        "openrouter/google/gemma-4-31b-it:free": {},
+        "openrouter/qwen/qwen3-coder:free": {},
+        "openrouter/openai/gpt-oss-20b:free": {},
+        "openrouter/minimax/minimax-m2.5:free": {}
+},
+      "workspace": "/home/node/.openclaw/workspace",
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      },
+      "thinkingDefault": "adaptive"
+}'
+
+openclaw config set --json "env" '{
+    "shellEnv": {
+      "enabled": true,
+      "timeoutMs": 5000
+    }
+  }'
+
+openclaw config set --json "plugins" '{
+    "entries": {
+      "openrouter": {
+        "enabled": true
+      },
+      "ollama": {
+        "enabled": true
+      }
+    }
+  }'
+
+openclaw config set --json "auth" '{
+    "profiles": {
+      "ollama:default": {
+        "provider": "ollama",
+        "mode": "api_key"
+      },
+      "openrouter:default": {
+        "provider": "openrouter",
+        "mode": "api_key"
+      }
+}
+}'
 
 openclaw config set --batch-json '[
-{"path": "agents.defaults.model.primary", "value":"openrouter/free"},
+{"path": "gateway.mode", "value": "local"},
 {"path": "gateway.http.endpoints.chatCompletions.enabled", "value": true},
-{"path": "gateway.http.endpoints.responses.enabled", "value": true}
+{"path": "gateway.http.endpoints.responses.enabled", "value": true},
+{"path": "gateway.auth.mode", "value": "token"},
+{"path": "gateway.auth.token", "value": "your-secure-key-fob!"},
+{"path": "tools.web.search.provider", "value": "searxng"},
+{"path": "models.mode", "value": "merge"}
 ]'
 
 modules=(
@@ -117,32 +190,16 @@ install_module() {
 [[ -n $CLAWHUB_API_KEY ]] && {
     npx clawhub login --token $CLAWHUB_API_KEY
 }
+
 for module in "${modules[@]}"; do
     rm -rf "${module##*/}"
-    install_module "npx clawhub install --force ${module}" "5"
+    install_module "openclaw skills install --force ${module}" "5"
 done
-
-modules=(
-    "vercel-labs/find-skills"
-    "anisafifi/academic-research-hub"
-    "claude-office-skills/academic-search"
-    "Ractorrr/arxiv"
-    "ajanraj/yahoo-finance"
-    "evgyur/crypto-price"
-    "anthropics/pdf"
-    "raulsimpetru/pdf-form-filler"
-    "byteroverinc/byterover"
-)
-
-cd /app/skills
-for module in "${modules[@]}"; do
-    rm -rf "${module##*/}"
-    install_module "npx sundial-hub add -y ${module}" "5"
-done
-mv .agents/skills/* .
-rm -rf .agents
 
 openclaw skills update --all
 # load in npm libraries
 openclaw doctor
 npm cache clean --force
+
+chown node:node -R /home/node
+chmod a+rwX -R /home/node
