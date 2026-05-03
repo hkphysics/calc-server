@@ -3,23 +3,19 @@ FROM ghcr.io/openclaw/openclaw:${OPENCLAW_TAG}
 
 USER root
 
-RUN apt-get update && \
+RUN umask 0000 && apt-get update && \
    apt-get install -y  --no-install-recommends \
-       python3-requests python3-pip jq tmux ffmpeg unzip && \
+       build-essential python3-requests python3-pip jq tmux ffmpeg unzip && \
    mkdir -p /home/linuxbrew/.linuxbrew && \
-   chmod a+rwx /home/linuxbrew/.linuxbrew && \
-   npm i -g --omit=dev clawhub playwright sundial-hub && \
-   npx playwright install chromium && \
+   chmod a+rwX -R /home/linuxbrew && \
+   chmod a+rwX -R /home/node && \
    apt-get clean && \
-   npm cache clean --force && \
-   pip cache purge && \
    apt-get autoremove && \
    rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 USER node
-COPY --chmod=755 openclaw-config.sh /home/node/openclaw-config.sh
+COPY --chmod=775 --chown=node:node openclaw-config.sh /home/node/openclaw-config.sh
 RUN --mount=type=secret,id=clawhub_api_key,uid=1000 \
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
     CLAWHUB_API_KEY=$(cat /run/secrets/clawhub_api_key) /home/node/openclaw-config.sh
 
 

@@ -60,18 +60,37 @@ services:
       ZHIPU_API_KEY: ${ZHIPU_API_KEY}
       OPENCLAW_NO_RESPAWN: 1
       NODE_COMPILE_CACHE: /var/tmp/openclaw-compile-cache
+      SEARXNG_BASE_URL: http://searxng-core:8080
     volumes:
-      - ./openclaw-data:/home/node/.openclaw
+      - openclaw-data:/home/node
       - linuxbrew:/home/linuxbrew
     ports:
       - 18789:18789
     extra_hosts:
       - host.docker.internal:host-gateway
 
+  searxng-core:
+    image: docker.io/searxng/searxng:${SEARXNG_VERSION:-latest}
+    restart: always
+    env_file: ./.env
+    volumes:
+      - ./core-config/:/etc/searxng/:Z
+      - core-data:/var/cache/searxng/
+ 
+  searxng-valkey:
+    image: docker.io/valkey/valkey:9-alpine
+    command: valkey-server --save 30 1 --loglevel warning
+    restart: always
+    volumes:
+      - valkey-data:/data/
+
 volumes:
   open-webui:
   hermes-data:
   linuxbrew:
+  core-data:
+  valkey-data:
+  openclaw-data:
 
 secrets:
   clawhub_api_key:
