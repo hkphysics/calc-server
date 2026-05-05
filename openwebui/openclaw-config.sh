@@ -135,6 +135,8 @@ modules=(
     "skill-vetter"
     "zhipu-web-search"
     "baidu-ai-map"
+    "annas-archive"
+    "zotero"
 )
 
 install_module() {
