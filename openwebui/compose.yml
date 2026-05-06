@@ -74,7 +74,7 @@ services:
     restart: always
     env_file: ./.env
     volumes:
-      - ./searxng-settings.xml/:/etc/searxng/settings.yml:ro
+      - ./searxng-settings.yml/:/etc/searxng/settings.yml:ro
       - core-data:/var/cache/searxng/
  
   searxng-valkey:
