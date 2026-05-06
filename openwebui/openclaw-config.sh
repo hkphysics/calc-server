@@ -4,8 +4,6 @@ set -e
 umask 000
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 
-ls -lR /home/node/.openclaw
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install gcc gh steipete/tap/goplaces gogcli \
    steipete/tap/gifgrep himalaya \
    steipete/tap/spogo \
