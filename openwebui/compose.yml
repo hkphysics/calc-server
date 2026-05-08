@@ -1,10 +1,6 @@
 services:
   openwebui:
     image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
-    build:
-      context: .
-      dockerfile: Dockerfile
-      pull: true
     volumes:
       - open-webui:/app/backend/data
     ports:
@@ -33,6 +29,7 @@ services:
       API_SERVER_ENABLED: true
       API_SERVER_KEY: your-secret-key-fob!
       API_SERVER_HOST: 0.0.0.0
+      SEARXNG_URL: http://searxng-core:8080
     command: ["gateway"]
     extra_hosts:
       - host.docker.internal:host-gateway

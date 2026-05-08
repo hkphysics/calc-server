@@ -85,6 +85,14 @@ openclaw config set --json "plugins" '{
       },
       "ollama": {
         "enabled": true
+      },
+      "searxng": {
+         "enabled": true,
+         "config": {
+            "webSearch": {
+                "baseUrl": "http://searxng-core:8080"
+             }
+         }
       }
     }
   }'
@@ -188,7 +196,7 @@ install_module() {
 }
 
 [[ -n $CLAWHUB_API_KEY ]] && {
-    npx clawhub login --token $CLAWHUB_API_KEY
+    pnpm dlx clawhub login --token $CLAWHUB_API_KEY
 }
 
 for module in "${modules[@]}"; do
