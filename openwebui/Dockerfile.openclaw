@@ -5,7 +5,8 @@ USER root
 
 RUN umask 0000 && apt-get update && \
    apt-get install -y  --no-install-recommends \
-       build-essential python3-requests python3-pip jq tmux ffmpeg unzip && \
+       build-essential python3-requests python3-pip \
+       chromium-headless-shell jq tmux ffmpeg unzip && \
    mkdir -p /home/linuxbrew/.linuxbrew && \
    chmod a+rwX -R /home/linuxbrew && \
    chmod a+rwX -R /home/node && \
@@ -14,9 +15,6 @@ RUN umask 0000 && apt-get update && \
    rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 USER node
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
-/home/linuxbrew/.linuxbrew/bin/brew install gcc gh && /home/linuxbrew/.linuxbrew/bin/brew cleanup --prune=all
-
 COPY --chmod=775 --chown=node:node openclaw-config.sh /home/node/openclaw-config.sh
 RUN --mount=type=secret,id=clawhub_api_key,uid=1000 \
     CLAWHUB_API_KEY=$(cat /run/secrets/clawhub_api_key) /home/node/openclaw-config.sh

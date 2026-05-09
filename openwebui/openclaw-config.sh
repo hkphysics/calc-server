@@ -4,6 +4,8 @@ set -e
 umask 000
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
 brew install gcc gh steipete/tap/goplaces gogcli \
    steipete/tap/gifgrep himalaya \
    steipete/tap/spogo \
@@ -117,7 +119,12 @@ openclaw config set --batch-json '[
 {"path": "gateway.auth.mode", "value": "token"},
 {"path": "gateway.auth.token", "value": "your-secure-key-fob!"},
 {"path": "tools.web.search.provider", "value": "searxng"},
-{"path": "models.mode", "value": "merge"}
+{"path": "models.mode", "value": "merge"},
+{"path": "browser.enabled", "value": true},
+{"path": "browser.headless", "value": true},
+{"path": "browser.noSandbox", "value": true},
+{"path": "browser.defaultProfile", "value": "openclaw"},
+{"path": "browser.executablePath", "value": "/usr/bin/chromium-headless-shell"}
 ]'
 
 modules=(
