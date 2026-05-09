@@ -41,9 +41,23 @@ API: token from openclaw.json
 ```
 change chat completion to response
 
+Add connection for hermes
+```
+URL: http://hermes:8642/v1
+API: copy from compose.yml
+```
+
 In the list of Settings -> Admin Settings -> Models
 
 Search for all of the models and change the function call to True
+
+In the list of Settings -> Admin Settings -> Web Search
+
+Web search -> True
+Web search engine -> SearXNG
+http://searxng-core:8080
+Bypass embedding and retrieval -> true
+Bypass web loader -> True
 
 4) To configure openclaw configure
 ```
