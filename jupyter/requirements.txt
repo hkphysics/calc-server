@@ -7,8 +7,8 @@ jupytext
 
 # installing all jupyter-ai models will cause
 # a timeout on startup
-jupyter-ai
-jupyter-server-mcp
+#jupyter-ai
+#jupyter-server-mcp
 langchain-ollama
 
 # This can causes freezes
