@@ -215,6 +215,7 @@ openclaw skills update --all
 # load in npm libraries
 openclaw doctor
 npm cache clean --force
+pip cache purge
 
 chown node:node -R /home/node
 chmod a+rwX -R /home/node

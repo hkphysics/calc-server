@@ -8,6 +8,7 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     restart: always
+    pull_policy: always
     environment:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
@@ -34,6 +35,7 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     restart: always
+    pull_policy: always
 
   openclaw:
     image: ghcr.io/openclaw/openclaw:${OPENCLAW_TAG-latest}
@@ -47,6 +49,7 @@ services:
         - CLAWHUB_API_KEY=${CLAWHUB_API_KEY}
         - OPENCLAW_TAG=${OPENCLAW_TAG-latest}
     restart: always
+    pull_policy: always
     environment:
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
       GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
@@ -73,13 +76,15 @@ services:
     volumes:
       - ./searxng-settings.yml/:/etc/searxng/settings.yml:ro
       - core-data:/var/cache/searxng/
- 
+    pull_policy: always
+
   searxng-valkey:
     image: docker.io/valkey/valkey:9-alpine
     command: valkey-server --save 30 1 --loglevel warning
     restart: always
     volumes:
       - valkey-data:/data/
+    pull_policy: always
 
 volumes:
   open-webui:
