@@ -51,9 +51,13 @@ cp jupyter_server_config.json /opt/tljh/user/etc/jupyter
 pushd /opt/tljh/hub/lib/python*/site-packages
 patch -p1 < $script_dir/badname.patch
 popd
+
+# use caddy instead of traefik
 tljh-config set http.port 3002
+tljh-config set https.enabled false
 tljh-config reload proxy
 tljh-config reload
+
 systemctl start caddy
 systemctl restart jupyterhub
 
